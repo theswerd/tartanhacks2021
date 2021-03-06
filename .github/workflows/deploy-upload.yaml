@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "server/functions/upload"
+      - ".github/workflows"
 
 jobs:
   upload:
