@@ -3,7 +3,8 @@ const express = require("express");
 const { Storage } = require("@google-cloud/storage");
 
 const { format } = require("util");
-
+const multer = require('multer');
+)
 const bodyParser = require("body-parser");
 
 const upload = multer({
