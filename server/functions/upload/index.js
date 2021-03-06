@@ -1,6 +1,8 @@
 require('dotenv').config()
 
 import express from "express";
+import { Storage } from '@google-cloud/storage'
+import { format } from 'util'
 
 const bodyParser = require('body-parser')
 
@@ -11,6 +13,7 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // no larger than 10mb, you can change as needed.
   },
 })
+const bucket = storage.bucket(icodeassets)
 
 const app = express();
 const port = process.env.PORT ?? 3000;
