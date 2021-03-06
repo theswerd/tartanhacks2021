@@ -54,7 +54,7 @@ app.post("/", upload.single("file"), (req, res) => {
         },
         
         body: {
-          url: publicUrl.toString(),
+          url: "http://35.190.38.218/"+blob.name,
         }.toString(),
       }
     ).then(async (response) => {
