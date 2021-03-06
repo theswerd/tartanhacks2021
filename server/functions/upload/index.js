@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
   res.send("Operational");
 });
 
-app.post("/", upload.single("file"), (req, res) => {
+app.post("/", upload.single("file"), async (req, res) => {
   if (!req.file) {
     res.status(400).send("No file uploaded.");
     return;
@@ -36,44 +36,43 @@ app.post("/", upload.single("file"), (req, res) => {
   const blob = bucket.file(n.toString() + ".jpeg");
   const blobStream = blob.createWriteStream();
   blobStream.on("error", (err) => {
-    res.status(500).send(err);
+    // res.status(500).send(err);
   });
 
-  blobStream.on("finish", () => {});
+  blobStream.on("finish", () => {
+    const publicUrl = format(
+      `https://storage.googleapis.com/icodeassets/${blob.name}`
+    );
+    fetch(
+      "https://swerd.cognitiveservices.azure.com/vision/v3.1/read/analyze?language=en",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          //TODO: ENVIRONMENTIZE
+          "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
+        },
+        body: JSON.stringify({
+          url: publicUrl,
+        }),
+      }
+    ).then(async (response) => {
+      if (response.status == 202) {
+        res.send({
+          res: response.headers.get("Operation-Location"),
+        });
+      } else {
+        res.status(501).send({
+          headers: response.headers,
+          status: response.status,
+          body: await response.text(),
+          imageURL: publicUrl,
+        });
+      }
+    });
+  });
 
   blobStream.end(req.file.buffer);
-
-  const publicUrl = format(
-    `https://storage.googleapis.com/icodeassets/${blob.name}`
-  );
-  fetch(
-    "https://swerd.cognitiveservices.azure.com/vision/v3.1/read/analyze?language=en",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Host: "swerd.cognitiveservices.azure.com",
-        //TODO: ENVIRONMENTIZE
-        "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
-      },
-
-      body: {
-        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Step6skasm.PNG/490px-Step6skasm.PNG",
-        //url: publicUrl,
-      },
-    }
-  ).then(async (response) => {
-    if (response.status == 202) {
-      res.send(response.headers);
-    } else {
-      res.status(501).send({
-        headers: response.headers,
-        status: response.status,
-        body: await response.text(),
-        imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Step6skasm.PNG/490px-Step6skasm.PNG",
-      });
-    }
-  });
 });
 
 app.listen(port, () => {
