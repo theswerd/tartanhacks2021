@@ -3,7 +3,7 @@ const express = require("express");
 const { Storage } = require("@google-cloud/storage");
 
 const { format } = require("util");
-const multer = require('multer');
+const multer = require("multer");
 
 //const bodyParser = require("body-parser");
 
@@ -30,7 +30,7 @@ app.post("/", upload.single("file"), (req, res) => {
   }
 
   // Create a new blob in the bucket and upload the file data.
-  const blob = bucket.file(Date().split(" ").join('')+ ".jpeg");
+  const blob = bucket.file(Date().split(" ").join("") + ".jpeg");
   const blobStream = blob.createWriteStream();
   blobStream.on("error", (err) => {
     res.status(500).send(err);
@@ -38,13 +38,13 @@ app.post("/", upload.single("file"), (req, res) => {
 
   blobStream.on("finish", () => {
     // The public URL can be used to directly access the file via HTTP.
-    const publicUrl = format(
-      `https://storage.googleapis.com/icodeassets/${blob.name}`
-    );
-    res.send(publicUrl);
   });
 
   blobStream.end(req.file.buffer);
+  const publicUrl = format(
+    `https://storage.googleapis.com/icodeassets/${blob.name}`
+  );
+  res.send(publicUrl);
 });
 
 app.listen(port, () => {
