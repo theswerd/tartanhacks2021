@@ -58,7 +58,7 @@ app.post("/", upload.single("file"), (req, res) => {
       },
 
       body: {
-        url: "https://storage.googleapis.com/icodeassets/103.jpeg",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Step6skasm.PNG/490px-Step6skasm.PNG",
         //url: publicUrl,
       },
     }
@@ -70,7 +70,7 @@ app.post("/", upload.single("file"), (req, res) => {
         headers: response.headers,
         status: response.status,
         body: await response.text(),
-        imageURL: "https://storage.googleapis.com/icodeassets/103.jpeg",
+        imageURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Step6skasm.PNG/490px-Step6skasm.PNG",
       });
     }
   });
