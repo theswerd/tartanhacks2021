@@ -54,13 +54,14 @@ app.post("/", upload.single("file"), (req, res) => {
           url: publicUrl,
         },
       }
-    ).then((response) => {
+    ).then(async(response) => {
       if (response.status == 202) {
         res.send(response.headers);
       } else {
         res.status(501).send({
           headers: response.headers,
           status: response.status,
+          body: await response.text(),
         });
       }
     });
