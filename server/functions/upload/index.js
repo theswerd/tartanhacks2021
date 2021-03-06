@@ -30,8 +30,10 @@ app.post("/", upload.single("file"), (req, res) => {
     return;
   }
 
+  var d = new Date();
+  var n = d.getMilliseconds();
   // Create a new blob in the bucket and upload the file data.
-  const blob = bucket.file(Date().getTime().toString() + ".jpeg");
+  const blob = bucket.file(n.toString() + ".jpeg");
   const blobStream = blob.createWriteStream();
   blobStream.on("error", (err) => {
     res.status(500).send(err);
