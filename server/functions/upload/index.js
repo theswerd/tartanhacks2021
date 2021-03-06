@@ -1,26 +1,14 @@
-const express = require('express');
+require('dotenv').config()
 
-const { filesUpload } = require('./middleware');
+const express = require("express");
 
+const app = express();
+const port = process.env.PORT ?? 3000;
 
-app = express();
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
-app.get('/upload', filesUpload, function(req, res) {
-  res.send('Alr now its express')
-  // will contain all text fields
-  // req.body 
-  // // will contain an array of file objects
-  // /*
-  //   {
-  //     fieldname: 'image',       String - name of the field used in the form
-  //     originalname,             String - original filename of the uploaded image
-  //     encoding,                 String - encoding of the image (e.g. "7bit")
-  //     mimetype,                 String - MIME type of the file (e.g. "image/jpeg")
-  //     buffer,                   Buffer - buffer containing binary data
-  //     size,                     Number - size of buffer in bytes
-  //   }
-  // */
-  // req.files 
-})
-
-exports.upload = app;
+app.listen(port, "0.0,0.0", () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
