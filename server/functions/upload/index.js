@@ -23,4 +23,4 @@ app.get('/upload', filesUpload, function(req, res) {
   // req.files 
 })
 
-exports = app;
+exports.upload = app;
