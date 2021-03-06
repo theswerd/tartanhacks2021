@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "server/functions/upload"
-      - ".github/workflows"
+      - "server/functions/upload/"
+      - ".github/workflows/"
 
 jobs:
   upload:
