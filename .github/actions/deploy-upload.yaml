@@ -1,0 +1,25 @@
+name: Deploy Upload
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "server/functions/upload"
+
+jobs:
+  upload:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+      - name: Install Dependencies
+        run: npm install
+      - id: deploy
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+          name: upload
+          runtime: nodejs12
+          credentials: ${{ secrets.gcp_credentials }} 
