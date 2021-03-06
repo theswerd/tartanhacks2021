@@ -31,8 +31,8 @@ dependencies:
   camera: ^0.8.0
   http: 
   mdi: ^4.0.0
-  firebase_core:
-  firebase_ml_vision:
+  # firebase_core: ^0.5.3
+  firebase_ml_vision: ^0.9.10
   # firebase_analytics: ^7.1.0
   # firebase_crashlytics: ^1.0.0
 dev_dependencies:
