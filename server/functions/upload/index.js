@@ -58,7 +58,7 @@ app.post("/", upload.single("file"), (req, res) => {
       },
 
       body: {
-\        url: "https://storage.googleapis.com/icodeassets/103.jpeg",
+        url: "https://storage.googleapis.com/icodeassets/103.jpeg",
         //url: publicUrl,
       },
     }
