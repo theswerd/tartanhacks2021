@@ -15,7 +15,7 @@ class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
   AnimationController animationController;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     animationController = AnimationController(
       vsync: this,
@@ -26,6 +26,12 @@ class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
         milliseconds: 200,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    animationController.dispose();
   }
 
   @override
