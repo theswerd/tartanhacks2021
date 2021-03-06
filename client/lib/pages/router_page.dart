@@ -3,34 +3,64 @@ import 'package:flutter/material.dart';
 import 'package:mdi/mdi.dart';
 import 'package:tartanhacks2021/pages/camera_page.dart';
 import 'package:tartanhacks2021/pages/home_page.dart';
+import 'package:tartanhacks2021/pages/settings_page.dart';
 
 class RouterPage extends StatefulWidget {
   @override
   _RouterPageState createState() => _RouterPageState();
 }
 
-class _RouterPageState extends State<RouterPage> {
+class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
   final CupertinoTabController controller = CupertinoTabController();
+  AnimationController animationController;
+
+  @override
+  initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      lowerBound: 1.3,
+      upperBound: 1.6,
+      value: 1.3,
+      duration: Duration(
+        milliseconds: 200,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Transform.scale(
-        scale: 1.3,
-        child: FloatingActionButton(
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (c) => CameraPage(),
-              fullscreenDialog: true,
+      floatingActionButton: AnimatedBuilder(
+        animation: animationController,
+        builder: (context, child) =>
+            Transform.scale(scale: animationController.value, child: child),
+        child: GestureDetector(
+          onTapUp: (_) {
+            animationController.reverse();
+          },
+          onTapCancel: () {
+            animationController.reverse();
+          },
+          onTapDown: (_) {
+            animationController.forward();
+          },
+          child: FloatingActionButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (c) => CameraPage(),
+                fullscreenDialog: true,
+              ),
             ),
+
+            mini: false,
+            backgroundColor: CupertinoColors.systemBlue,
+            foregroundColor: Colors.white,
+            child: Icon(Mdi.cameraIris),
+            tooltip: 'Take a photo of your code',
+            // shape: DiamondBorder(),
           ),
-          mini: false,
-          backgroundColor: CupertinoColors.systemBlue,
-          foregroundColor: Colors.white,
-          child: Icon(Mdi.cameraIris),
-          tooltip: 'Take a photo of your code',
-          // shape: DiamondBorder(),
         ),
       ),
       body: CupertinoTabScaffold(
@@ -54,7 +84,7 @@ class _RouterPageState extends State<RouterPage> {
             case 0:
               return HomePage();
             case 2:
-              return Container();
+              return SettingsPage();
             default:
               return Container();
           }

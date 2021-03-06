@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: Colors.black,
       child: ListView.separated(
         padding: EdgeInsets.only(
           top: 100,
@@ -72,8 +73,8 @@ class HomePage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.black.withOpacity(
-          0.3,
+        backgroundColor: Colors.grey.withOpacity(
+          0.2,
         ),
       ),
     );
