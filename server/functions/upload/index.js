@@ -59,7 +59,7 @@ app.post("/", upload.single("file"), (req, res) => {
       body: {
         url: "https://storage.googleapis.com/icodeassets/103.jpeg",
         //url: publicUrl,
-      }.toString(),
+      },
     }
   ).then(async (response) => {
     if (response.status == 202) {
