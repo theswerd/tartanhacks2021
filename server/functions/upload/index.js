@@ -58,7 +58,7 @@ app.post("/", upload.single("file"), async (req, res) => {
       }
     ).then(async (response) => {
       if (response.status == 202) {
-        sleep(5000)
+        await sleep(5000)
         fetch(response.headers.get("Operation-Location"), {
           headers: {
             "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
