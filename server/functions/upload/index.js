@@ -31,7 +31,7 @@ app.post("/", upload.single("file"), (req, res) => {
   }
 
   var d = new Date();
-  var n = d.getMilliseconds();
+  var n = d.getTime();
   // Create a new blob in the bucket and upload the file data.
   const blob = bucket.file(n.toString() + ".jpeg");
   const blobStream = blob.createWriteStream();
@@ -52,11 +52,12 @@ app.post("/", upload.single("file"), (req, res) => {
           //TODO: ENVIRONMENTIZE
           "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
         },
+        
         body: {
-          url: publicUrl,
-        },
+          url: publicUrl.toString(),
+        }.toString(),
       }
-    ).then(async(response) => {
+    ).then(async (response) => {
       if (response.status == 202) {
         res.send(response.headers);
       } else {
@@ -64,7 +65,7 @@ app.post("/", upload.single("file"), (req, res) => {
           headers: response.headers,
           status: response.status,
           body: await response.text(),
-          imageURL: publicUrl
+          imageURL: publicUrl,
         });
       }
     });
