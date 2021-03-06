@@ -14,7 +14,7 @@ const upload = multer({
   },
 });
 const storage = new Storage();
-const bucket = storage.bucket("albums");
+const bucket = storage.bucket("icodeassets");
 
 const app = express();
 const port = process.env.PORT ?? 3000;
