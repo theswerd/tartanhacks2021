@@ -5,6 +5,7 @@ const { Storage } = require("@google-cloud/storage");
 const { format } = require("util");
 const multer = require("multer");
 
+const fetch = require('node-fetch');
 //const bodyParser = require("body-parser");
 
 const upload = multer({
