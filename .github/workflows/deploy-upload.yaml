@@ -19,10 +19,10 @@ jobs:
         working-directory: "server/functions/upload"
         run: npm install
       - name: Deploy
-        working-directory: "server/functions/upload"
         uses: google-github-actions/deploy-cloud-functions@main
         with:
           name: upload
           runtime: nodejs10
           region: us-west2
           credentials: ${{ secrets.gcp_credentials }} 
+          source_dir: "server/functions/upload"
