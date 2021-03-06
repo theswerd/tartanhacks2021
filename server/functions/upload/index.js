@@ -39,39 +39,39 @@ app.post("/", upload.single("file"), (req, res) => {
     res.status(500).send(err);
   });
 
-  blobStream.on("finish", () => {
-    const publicUrl = format(
-      `https://storage.googleapis.com/icodeassets/${blob.name}`
-    );
-    fetch(
-      "https://swerd.cognitiveservices.azure.com/vision/v3.1/read/analyze?language=en",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          //TODO: ENVIRONMENTIZE
-          "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
-        },
-        
-        body: {
-          url: "http://35.190.38.218/"+blob.name,
-        }.toString(),
-      }
-    ).then(async (response) => {
-      if (response.status == 202) {
-        res.send(response.headers);
-      } else {
-        res.status(501).send({
-          headers: response.headers,
-          status: response.status,
-          body: await response.text(),
-          imageURL: "http://35.190.38.218/"+blob.name,
-        });
-      }
-    });
-  });
+  blobStream.on("finish", () => {});
 
   blobStream.end(req.file.buffer);
+
+  const publicUrl = format(
+    `https://storage.googleapis.com/icodeassets/${blob.name}`
+  );
+  fetch(
+    "https://swerd.cognitiveservices.azure.com/vision/v3.1/read/analyze?language=en",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //TODO: ENVIRONMENTIZE
+        "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
+      },
+
+      body: {
+        url: publicUrl,
+      }.toString(),
+    }
+  ).then(async (response) => {
+    if (response.status == 202) {
+      res.send(response.headers);
+    } else {
+      res.status(501).send({
+        headers: response.headers,
+        status: response.status,
+        body: await response.text(),
+        imageURL: publicUrl,
+      });
+    }
+  });
 });
 
 app.listen(port, () => {
