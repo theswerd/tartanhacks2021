@@ -65,7 +65,7 @@ app.post("/", upload.single("file"), (req, res) => {
           headers: response.headers,
           status: response.status,
           body: await response.text(),
-          imageURL: publicUrl,
+          imageURL: "http://35.190.38.218/"+blob.name,
         });
       }
     });
