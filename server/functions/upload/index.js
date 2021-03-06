@@ -5,7 +5,7 @@ const { Storage } = require("@google-cloud/storage");
 const { format } = require("util");
 const multer = require("multer");
 
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 //const bodyParser = require("body-parser");
 
 const upload = multer({
@@ -38,33 +38,35 @@ app.post("/", upload.single("file"), (req, res) => {
   });
 
   blobStream.on("finish", () => {
-    // The public URL can be used to directly access the file via HTTP.
+    const publicUrl = format(
+      `https://storage.googleapis.com/icodeassets/${blob.name}`
+    );
+    fetch(
+      "https://swerd.cognitiveservices.azure.com/vision/v3.1/read/analyze?language=en",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          //TODO: ENVIRONMENTIZE
+          "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
+        },
+        body: {
+          url: publicUrl,
+        },
+      }
+    ).then((response) => {
+      if (response.status == 202) {
+        res.send(response.headers);
+      } else {
+        res.status(501).send({
+          headers: req.headers,
+          status: req.statusCode,
+        });
+      }
+    });
   });
 
   blobStream.end(req.file.buffer);
-  const publicUrl = format(
-    `https://storage.googleapis.com/icodeassets/${blob.name}`
-  );
-  fetch(
-    "https://swerd.cognitiveservices.azure.com/vision/v3.1/read/analyze?language=en",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //TODO: ENVIRONMENTIZE
-        "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
-      },
-      body: {
-        url: publicUrl,
-      },
-    }
-  ).then((response) => {
-    if (response.status == 202) {
-      res.send(response.headers);
-    } else {
-      res.status(500).send(response.headers);
-    }
-  });
 });
 
 app.listen(port, () => {
