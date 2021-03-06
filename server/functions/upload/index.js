@@ -59,8 +59,8 @@ app.post("/", upload.single("file"), (req, res) => {
         res.send(response.headers);
       } else {
         res.status(501).send({
-          headers: req.headers,
-          status: req.statusCode,
+          headers: response.headers,
+          status: response.status,
         });
       }
     });
