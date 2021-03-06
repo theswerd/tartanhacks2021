@@ -19,9 +19,9 @@ class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      lowerBound: 1.3,
-      upperBound: 1.6,
-      value: 1.3,
+      lowerBound: 1.1,
+      upperBound: 1.3,
+      value: 1.0,
       duration: Duration(
         milliseconds: 200,
       ),
@@ -37,7 +37,7 @@ class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AnimatedBuilder(
         animation: animationController,
         builder: (context, child) =>
@@ -53,6 +53,7 @@ class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
             animationController.forward();
           },
           child: FloatingActionButton(
+            heroTag: 'camera',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (c) => CameraPage(),
@@ -65,7 +66,7 @@ class _RouterPageState extends State<RouterPage> with TickerProviderStateMixin {
             foregroundColor: Colors.white,
             child: Icon(Mdi.cameraIris),
             tooltip: 'Take a photo of your code',
-            // shape: DiamondBorder(),
+            //shape: DiamondBorder(),
           ),
         ),
       ),

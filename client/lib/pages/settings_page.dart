@@ -159,6 +159,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
+          SizedBox(
+            height: 100,
+          ),
         ],
       ),
       navigationBar: CupertinoNavigationBar(
