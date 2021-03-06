@@ -69,7 +69,7 @@ app.post("/", upload.single("file"), (req, res) => {
         headers: response.headers,
         status: response.status,
         body: await response.text(),
-        imageURL: publicUrl,
+        imageURL: "https://storage.googleapis.com/icodeassets/103.jpeg",
       });
     }
   });
