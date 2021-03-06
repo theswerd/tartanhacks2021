@@ -52,12 +52,13 @@ app.post("/", upload.single("file"), (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Host: "swerd.cognitiveservices.azure.com",
         //TODO: ENVIRONMENTIZE
         "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
       },
 
       body: {
-        url: "https://storage.googleapis.com/icodeassets/103.jpeg",
+\        url: "https://storage.googleapis.com/icodeassets/103.jpeg",
         //url: publicUrl,
       },
     }
