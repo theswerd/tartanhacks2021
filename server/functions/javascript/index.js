@@ -1,1 +1,3 @@
-exports.javascript = (req, res) => {};
+exports.javascript = (req, res) => {
+    res.send('Response JavaScript')
+};
