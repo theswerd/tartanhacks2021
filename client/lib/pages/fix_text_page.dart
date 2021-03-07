@@ -17,13 +17,29 @@ class Block {
   Block(this.value);
 }
 
+class Output {
+  String message;
+  bool error;
+  Output({
+    @required this.message,
+    this.error = false,
+  });
+}
+
 class _FixTextPageState extends State<FixTextPage> {
   String text;
   TextEditingController textEditingController;
+  PageController pageController;
+
+  Output output;
 
   @override
   void initState() {
     super.initState();
+
+    output = Output(message: '');
+
+    pageController = PageController();
 
     text = widget.textblocks
         .map(
@@ -42,50 +58,102 @@ class _FixTextPageState extends State<FixTextPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Code Blocks'),
-      // ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          post(
-            'https://us-west2-icode-131b9.cloudfunctions.net/javascript',
-            //headers: {"Content-Type": "application/json"},
-            body: {
-              "code": textEditingController.text,
+    return PageView(
+      scrollDirection: Axis.vertical,
+      controller: pageController,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        Scaffold(
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              post(
+                'https://us-west2-icode-131b9.cloudfunctions.net/javascript',
+                //headers: {"Content-Type": "application/json"},
+                body: {
+                  "code": textEditingController.text,
+                },
+              ).then((value) {
+                if (value.statusCode == 500) {
+                  setState(() {
+                    output.error = true;
+                    output.message = "There was an error running your code";
+                  });
+                } else {
+                  setState(() {
+                    output.error = false;
+                    output.message = value.body;
+                  });
+                }
+                pageController.nextPage(
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.bounceInOut);
+              });
             },
-          ).then((value) => print(value.body));
-        },
-        heroTag: 'camera',
-        label: Text('Run Code'),
-        backgroundColor: CupertinoColors.systemBlue,
-        foregroundColor: Colors.white,
-      ),
-      body: CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text(
-            'Your Code',
-            style: TextStyle(
-              color: Colors.white,
+            heroTag: 'camera',
+            label: Text('Run Code'),
+            backgroundColor: CupertinoColors.systemBlue,
+            foregroundColor: Colors.white,
+          ),
+          body: CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: Text(
+                'Your Code',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: CupertinoColors.black.withOpacity(0.3),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 60,
+                right: 16,
+                left: 16,
+              ),
+              child: TextField(
+                controller: textEditingController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(border: InputBorder.none),
+                maxLines: null,
+                style: TextStyle(height: 1.5),
+              ),
             ),
           ),
-          backgroundColor: CupertinoColors.black.withOpacity(0.3),
         ),
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 60,
-            right: 16,
-            left: 16,
-          ),
-          child: TextField(
-            controller: textEditingController,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(border: InputBorder.none),
-            maxLines: null,
-            style: TextStyle(height: 1.5),
+        Scaffold(
+          body: CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              leading: CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: Icon(Icons.arrow_upward),
+                onPressed: () {
+                  pageController.previousPage(
+                    duration: Duration(
+                      milliseconds: 500,
+                    ),
+                    curve: Curves.bounceInOut,
+                  );
+                },
+              ),
+              middle: Text(
+                'Output',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: CupertinoColors.black.withOpacity(0.3),
+            ),
+            child: Center(
+              child: Text(
+                output.message,
+                style: TextStyle(
+                  color: output.error ? Colors.white : Colors.red,
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
