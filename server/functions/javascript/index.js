@@ -1,3 +1,3 @@
 exports.javascript = (req, res) => {
-    res.send(req.body.replace("\\n", "\n"));
+    res.send(req.body.code.replace("\\n", "\n"));
 };
