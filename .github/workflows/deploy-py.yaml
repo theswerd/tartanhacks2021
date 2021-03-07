@@ -1,0 +1,22 @@
+name: Deploy Python
+
+on:
+  push:
+    branches:
+      - main
+    # paths:
+    #   - ""
+jobs:
+  python:
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+          name: python
+          runtime: python38
+          region: us-west2
+          credentials: ${{ secrets.gcp_credentials }} 
+          source_dir: "server/functions/python"
