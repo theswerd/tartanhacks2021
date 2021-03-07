@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -154,16 +155,51 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
                                 value.path,
                               ),
                             );
-                            var res = await req.send();
+                            Response res =
+                                await Response.fromStream(await req.send());
+                            print("Result: ${res.statusCode}");
 
                             print('RESPONSE');
                             print(res.statusCode);
                             print(res.reasonPhrase);
-                            //res.stream
+                            print(jsonDecode(res.body)['res']);
+                            print(Map<String, dynamic>.from(
+                              (jsonDecode(
+                                jsonDecode(res.body)['res'],
+                              )),
+                            ).keys);
 
-                            await res.stream
-                                .drain()
-                                .then((value) => print(value));
+                            var importantStuff = Map<String, dynamic>.from(
+                              (jsonDecode(
+                                jsonDecode(res.body)['res'],
+                              )),
+                            );
+                            if (importantStuff['status'] == 'succeeded') {
+                              print('YAYYYY');
+                              print(importantStuff['analyzeResult']
+                                      ['readResults']
+                                  .first['width']);
+                              print(importantStuff['analyzeResult']
+                                      ['readResults']
+                                  .first['height']);
+                              List lines = importantStuff['analyzeResult']
+                                      ['readResults']
+                                  .first['lines'];
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (c) => FixTextPage(lines),
+                                ),
+                              );
+                              // print(Map<String, dynamic>.from(
+                              //         importantStuff['analyzeResult']
+                              //                 ['readResults']
+                              //             .first)
+                              //     .keys);
+                            } else {
+                              print('F in the chat');
+                              print(importantStuff['status']);
+                            }
+                            //res.stream
 
                             // final textRecognizer = FirebaseVision.instance
                             //     .cloudTextRecognizer(CloudTextRecognizerOptions(

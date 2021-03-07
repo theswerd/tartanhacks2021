@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class FixTextPage extends StatefulWidget {
   const FixTextPage(this.textblocks, {Key key}) : super(key: key);
 
-  final List<DocumentTextBlock> textblocks;
+  final List<dynamic> textblocks;
 
   @override
   _FixTextPageState createState() => _FixTextPageState();
@@ -13,73 +13,51 @@ class FixTextPage extends StatefulWidget {
 
 class Block {
   String value;
-  bool selected;
 
-  Block(this.value, this.selected);
+  Block(this.value);
 }
 
 class _FixTextPageState extends State<FixTextPage> {
-  List<Block> blocks;
+  String text;
 
   @override
   void initState() {
     super.initState();
 
-    blocks = widget.textblocks
+    text = widget.textblocks
         .map(
           (e) => Block(
-            e.text,
-            true,
+            e['text'],
           ),
         )
-        .toList();
+        .toList()
+        .map((e) => e.value)
+        .toList()
+        .join('\n');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Code Blocks'),
+      appBar: AppBar(
+        title: Text('Code Blocks'),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        heroTag: 'camera',
+        label: Text('Run Code'),
+        backgroundColor: CupertinoColors.systemBlue,
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: TextField(
+          controller: TextEditingController(text: text ?? ''),
+          decoration: InputDecoration(border: InputBorder.none),
+          maxLines: null,
+          style: TextStyle(height: 1.5),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
-          heroTag: 'camera',
-          label: Text('Run Code'),
-          backgroundColor: CupertinoColors.systemBlue,
-          foregroundColor: Colors.white,
-        ),
-        body: ListView.separated(
-          padding: EdgeInsets.all(18),
-          itemCount: blocks.length,
-          itemBuilder: (c, i) => OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                tapTargetSize: MaterialTapTargetSize.padded,
-                side: BorderSide(
-                  color: blocks[i].selected
-                      ? CupertinoColors.activeBlue
-                      : CupertinoColors.systemGrey3,
-                )),
-            onPressed: () {
-              print('PRESSED');
-              setState(() {
-                blocks[i].selected = !blocks[i].selected;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                maxLines: null,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(border: InputBorder.none),
-                controller: TextEditingController(
-                  text: blocks[i].value,
-                ),
-              ),
-            ),
-          ),
-          separatorBuilder: (c, i) => SizedBox(
-            height: 30,
-          ),
-        ));
+      ),
+    );
   }
 }
