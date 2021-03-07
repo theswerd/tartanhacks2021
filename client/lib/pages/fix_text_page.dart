@@ -109,7 +109,7 @@ class _FixTextPageState extends State<FixTextPage> {
             ),
             child: Padding(
               padding: EdgeInsets.only(
-                top: 60,
+                top: 80,
                 right: 16,
                 left: 16,
               ),
