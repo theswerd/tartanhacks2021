@@ -58,15 +58,14 @@ app.post("/", upload.single("file"), async (req, res) => {
       }
     ).then(async (response) => {
       if (response.status == 202) {
-        await sleep(5000)
+        await sleep(5000);
         fetch(response.headers.get("Operation-Location"), {
           headers: {
             "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
-          }
+          },
         }).then(async (textInfo) => {
           res.status(201).send({
             res: await textInfo.text(),
-            extra: textInfo
           });
         });
       } else {
@@ -87,9 +86,8 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-
 function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
-}   
+}
