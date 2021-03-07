@@ -1,2 +1,2 @@
 # ICode
-[![Deploy Upload](https://github.com/theswerd/tartanhacks2021/actions/workflows/deploy-upload.yaml/badge.svg)](https://github.com/theswerd/tartanhacks2021/actions/workflows/deploy-upload.yaml)
+[![Deploy JS](https://github.com/theswerd/tartanhacks2021/actions/workflows/deploy-js.yaml/badge.svg)](https://github.com/theswerd/tartanhacks2021/actions/workflows/deploy-js.yaml)
