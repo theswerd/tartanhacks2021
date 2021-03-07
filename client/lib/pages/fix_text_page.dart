@@ -73,6 +73,8 @@ class _FixTextPageState extends State<FixTextPage> {
                   "code": textEditingController.text,
                 },
               ).then((value) {
+                print(value.body);
+                print(value.statusCode);
                 if (value.statusCode == 500) {
                   setState(() {
                     output.error = true;
@@ -85,8 +87,9 @@ class _FixTextPageState extends State<FixTextPage> {
                   });
                 }
                 pageController.nextPage(
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.bounceInOut);
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.linear,
+                );
               });
             },
             heroTag: 'camera',
@@ -131,7 +134,7 @@ class _FixTextPageState extends State<FixTextPage> {
                     duration: Duration(
                       milliseconds: 500,
                     ),
-                    curve: Curves.bounceInOut,
+                    curve: Curves.linear,
                   );
                 },
               ),
@@ -147,7 +150,7 @@ class _FixTextPageState extends State<FixTextPage> {
               child: Text(
                 output.message,
                 style: TextStyle(
-                  color: output.error ? Colors.white : Colors.red,
+                  color: output.error ? Colors.red : Colors.white,
                 ),
               ),
             ),
