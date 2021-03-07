@@ -19,6 +19,7 @@ class Block {
 
 class _FixTextPageState extends State<FixTextPage> {
   String text;
+  TextEditingController textEditingController;
 
   @override
   void initState() {
@@ -34,6 +35,9 @@ class _FixTextPageState extends State<FixTextPage> {
         .map((e) => e.value)
         .toList()
         .join('\n');
+    textEditingController = TextEditingController(
+      text: text,
+    );
   }
 
   @override
@@ -46,11 +50,11 @@ class _FixTextPageState extends State<FixTextPage> {
         onPressed: () {
           post(
             'https://us-west2-icode-131b9.cloudfunctions.net/javascript',
-            headers: {"Content-Type": "application/json"},
+            //headers: {"Content-Type": "application/json"},
             body: {
-              'lets see': 'if this works',
+              "code": textEditingController.text,
             },
-          );
+          ).then((value) => print(value.body));
         },
         heroTag: 'camera',
         label: Text('Run Code'),
@@ -74,7 +78,7 @@ class _FixTextPageState extends State<FixTextPage> {
             left: 16,
           ),
           child: TextField(
-            controller: TextEditingController(text: text ?? ''),
+            controller: textEditingController,
             decoration: InputDecoration(border: InputBorder.none),
             maxLines: null,
             style: TextStyle(height: 1.5),
