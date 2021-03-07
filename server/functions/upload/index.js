@@ -64,8 +64,9 @@ app.post("/", upload.single("file"), async (req, res) => {
             "Ocp-Apim-Subscription-Key": "6d83436887804cf38765a1fe2f09fb7a",
           }
         }).then(async (textInfo) => {
-          res.send({
+          res.status(201).send({
             res: await textInfo.text(),
+            extra: textInfo
           });
         });
       } else {

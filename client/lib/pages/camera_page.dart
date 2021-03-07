@@ -5,6 +5,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:http/http.dart';
 import 'package:mdi/mdi.dart';
 import 'package:tartanhacks2021/pages/fix_text_page.dart';
 
@@ -139,36 +140,61 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
                               hasTakenPhoto = true;
                               animationController.forward();
                             });
+
+                            MultipartRequest req = MultipartRequest(
+                              'POST',
+                              Uri.parse(
+                                "https://upload-b3ldusjoja-wl.a.run.app",
+                              ),
+                            );
+
+                            req.files.add(
+                              await MultipartFile.fromPath(
+                                'file',
+                                value.path,
+                              ),
+                            );
+                            var res = await req.send();
+
+                            print('RESPONSE');
+                            print(res.statusCode);
+                            print(res.reasonPhrase);
+                            //res.stream
+
+                            await res.stream
+                                .drain()
+                                .then((value) => print(value));
+
                             // final textRecognizer = FirebaseVision.instance
                             //     .cloudTextRecognizer(CloudTextRecognizerOptions(
                             //   hintedLanguages: ['en'],
                             //   textModelType: CloudTextModelType.dense,
                             // ));
-                            final textRecognizer = FirebaseVision.instance
-                                .cloudDocumentTextRecognizer(
-                              CloudDocumentRecognizerOptions(
-                                hintedLanguages: ['en'],
-                              ),
-                            );
-                            var text = await textRecognizer.processImage(
-                              FirebaseVisionImage.fromFile(
-                                File(
-                                  value.path,
-                                ),
-                              ),
-                            );
-                            print('OUTPUT');
-                            text.blocks.forEach((element) {
-                              print(element.text);
-                            });
-                            print(text.text);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (c) => FixTextPage(
-                                  text.blocks,
-                                ),
-                              ),
-                            );
+                            // final textRecognizer = FirebaseVision.instance
+                            //     .cloudDocumentTextRecognizer(
+                            //   CloudDocumentRecognizerOptions(
+                            //     hintedLanguages: ['en'],
+                            //   ),
+                            // );
+                            // var text = await textRecognizer.processImage(
+                            //   FirebaseVisionImage.fromFile(
+                            //     File(
+                            //       value.path,
+                            //     ),
+                            //   ),
+                            // );
+                            // print('OUTPUT');
+                            // text.blocks.forEach((element) {
+                            //   print(element.text);
+                            // });
+                            // print(text.text);
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (c) => FixTextPage(
+                            //       text.blocks,
+                            //     ),
+                            //   ),
+                            // );
                           });
                         }
                       : null,
