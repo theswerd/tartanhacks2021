@@ -1,4 +1,10 @@
 exports.javascript = (req, res) => {
-    let returnVal = eval(req.body.code.replace("\\n", "\n"));
-    res.send(returnVal);
+    try {
+        let returnVal = eval(req.body.code.replace("\\n", "\n"));
+        res.send(returnVal);
+
+    } catch (error) {
+        res.status(500).send(error);
+
+    }
 };
