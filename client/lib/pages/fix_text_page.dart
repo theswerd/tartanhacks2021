@@ -79,6 +79,7 @@ class _FixTextPageState extends State<FixTextPage> {
           ),
           child: TextField(
             controller: textEditingController,
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(border: InputBorder.none),
             maxLines: null,
             style: TextStyle(height: 1.5),
