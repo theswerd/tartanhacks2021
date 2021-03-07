@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class FixTextPage extends StatefulWidget {
   const FixTextPage(this.textblocks, {Key key}) : super(key: key);
@@ -42,7 +43,15 @@ class _FixTextPageState extends State<FixTextPage> {
       //   title: Text('Code Blocks'),
       // ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          post(
+            'https://us-west2-icode-131b9.cloudfunctions.net/javascript',
+            headers: {"Content-Type": "application/json"},
+            body: {
+              'lets see': 'if this works',
+            },
+          );
+        },
         heroTag: 'camera',
         label: Text('Run Code'),
         backgroundColor: CupertinoColors.systemBlue,
