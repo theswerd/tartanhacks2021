@@ -23,62 +23,6 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: EdgeInsets.only(top: 100),
         children: [
           CupertinoFormSection.insetGrouped(
-            backgroundColor: Colors.transparent,
-            header: Text('General Settings'),
-            children: [
-              CupertinoFormRow(
-                prefix: Text(
-                  'Analytics Enabled',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                helper: Text(
-                  'Allow ICode to collect analytics for product improvements with Google Analytics',
-                  style: TextStyle(
-                    color: Colors.grey.shade200,
-                  ),
-                ),
-                child: Switch.adaptive(
-                  value: true,
-                  onChanged: (v) {},
-                ),
-              ),
-              CupertinoFormRow(
-                prefix: Text(
-                  'Save History',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                helper: Text(
-                  'Save programming history locally. This will allow you to look back at past code you have written.',
-                  style: TextStyle(
-                    color: Colors.grey.shade200,
-                  ),
-                ),
-                child: Switch.adaptive(
-                  value: true,
-                  onChanged: (v) {},
-                ),
-              ),
-              CupertinoButton(
-                alignment: Alignment.centerLeft,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Clear History',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          CupertinoFormSection.insetGrouped(
             header: Text('Language'),
             children: [
               CupertinoButton(
@@ -156,6 +100,62 @@ class _SettingsPageState extends State<SettingsPage> {
                 //     selectedLanguage = SupportedLanguages.Ruby;
                 //   });
                 // },
+              ),
+            ],
+          ),
+          CupertinoFormSection.insetGrouped(
+            backgroundColor: Colors.transparent,
+            header: Text('General Settings'),
+            children: [
+              CupertinoFormRow(
+                prefix: Text(
+                  'Analytics Enabled',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                helper: Text(
+                  'Allow ICode to collect analytics for product improvements with Google Analytics',
+                  style: TextStyle(
+                    color: Colors.grey.shade200,
+                  ),
+                ),
+                child: Switch.adaptive(
+                  value: true,
+                  onChanged: (v) {},
+                ),
+              ),
+              CupertinoFormRow(
+                prefix: Text(
+                  'Save History',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                helper: Text(
+                  'Save programming history locally. This will allow you to look back at past code you have written.',
+                  style: TextStyle(
+                    color: Colors.grey.shade200,
+                  ),
+                ),
+                child: Switch.adaptive(
+                  value: true,
+                  onChanged: (v) {},
+                ),
+              ),
+              CupertinoButton(
+                alignment: Alignment.centerLeft,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Clear History',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                onPressed: () {},
               ),
             ],
           ),

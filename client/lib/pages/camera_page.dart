@@ -9,6 +9,7 @@ import 'package:camera/camera.dart';
 import 'package:http/http.dart';
 import 'package:mdi/mdi.dart';
 import 'package:tartanhacks2021/pages/fix_text_page.dart';
+import 'package:tartanhacks2021/pages/settings_page.dart';
 
 class CameraPage extends StatefulWidget {
   @override
@@ -96,9 +97,14 @@ class _CameraPageState extends State<CameraPage> with TickerProviderStateMixin {
             child: Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: Icon(Icons.close),
+                icon: Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (c) => SettingsPage(),
+                      fullscreenDialog: true,
+                    ),
+                  );
                 },
               ),
             ),

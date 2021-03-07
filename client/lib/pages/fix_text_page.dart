@@ -1,4 +1,3 @@
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,9 +38,9 @@ class _FixTextPageState extends State<FixTextPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Code Blocks'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Code Blocks'),
+      // ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
         heroTag: 'camera',
@@ -49,13 +48,28 @@ class _FixTextPageState extends State<FixTextPage> {
         backgroundColor: CupertinoColors.systemBlue,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: TextField(
-          controller: TextEditingController(text: text ?? ''),
-          decoration: InputDecoration(border: InputBorder.none),
-          maxLines: null,
-          style: TextStyle(height: 1.5),
+      body: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(
+            'Your Code',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: CupertinoColors.black.withOpacity(0.3),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 60,
+            right: 16,
+            left: 16,
+          ),
+          child: TextField(
+            controller: TextEditingController(text: text ?? ''),
+            decoration: InputDecoration(border: InputBorder.none),
+            maxLines: null,
+            style: TextStyle(height: 1.5),
+          ),
         ),
       ),
     );

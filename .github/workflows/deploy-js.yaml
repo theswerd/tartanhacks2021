@@ -1,4 +1,4 @@
-name: Deploy Upload
+name: Deploy JS
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     # paths:
     #   - ""
 jobs:
-  upload:
+  javascript:
     runs-on: ubuntu-20.04
     
     steps:
@@ -16,13 +16,13 @@ jobs:
         with:
           node-version: "10"
       - name: Install Dependencies
-        working-directory: "server/functions/upload"
+        working-directory: "server/functions/javascript"
         run: npm install
       - name: Deploy
         uses: google-github-actions/deploy-cloud-functions@main
         with:
-          name: upload
+          name: javascript
           runtime: nodejs10
           region: us-west2
           credentials: ${{ secrets.gcp_credentials }} 
-          source_dir: "server/functions/upload"
+          source_dir: "server/functions/javascript"

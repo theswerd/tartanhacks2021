@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tartanhacks2021/pages/camera_page.dart';
 import 'package:tartanhacks2021/pages/router_page.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         primaryColor: CupertinoColors.systemBlue,
       ),
-      home: RouterPage(),
+      home: CameraPage(),
     );
   }
 }
