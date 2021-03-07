@@ -13,4 +13,4 @@ def python(request):
         
         return eval(request_json['code'].replace("\\n", "\n"))
     else:
-        return f'Hello World!'
+        return f'Send your code in the body'
